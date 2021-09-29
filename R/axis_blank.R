@@ -40,7 +40,7 @@
 #' 
 #' @param gap.axis See \code{\link[graphics]{axis}}.
 #' 
-#' @param tck The length of tick marks as a fraction of the smaller of the width or height of the plotting region. If tck >= 0.5 it is interpreted as a fraction of the relevant side, so if tck = 1 grid lines are drawn. The default setting is (tck = -0.025).
+#' @param tck The length of tick marks as a fraction of the smaller of the width or height of the plotting region. If tck >= 0.5 it is interpreted as a fraction of the relevant side, so if tck = 1 grid lines are drawn. The default setting istck = -0.05 + 0.004 * min(dev.size("in")), which works well for most standard plot sizes.
 #' 
 #' @param minor Whether or not to add smaller tick marks spaced equally between the larger tickmarks specified by the at argument. Tick length is set to \code{tck * 0.5}. 
 #' 
@@ -65,7 +65,7 @@
 axis_blank <- function(side, at = NULL, labels = FALSE, tick = TRUE, line = NA,
                        pos = NA, outer = FALSE, font = NA, lty = "solid",
                        lwd = 1, lwd.ticks = lwd, col = NULL, col.ticks = NULL,
-                       hadj = NA, padj = NA, gap.axis = NA, ..., tck = -0.02, minor = TRUE){
+                       hadj = NA, padj = NA, gap.axis = NA, ..., tck = NA, minor = TRUE){
   if(!is.numeric(side)){
     stop("side must be numeric. 1=below, 2=left, 3=above and 4=right.")
   }
@@ -73,6 +73,12 @@ axis_blank <- function(side, at = NULL, labels = FALSE, tick = TRUE, line = NA,
     is_logged <- ifelse(side %in% c(1,3), par("xlog"), par("ylog"))
     
     at <- axTicks(side = side, log = is_logged)
+  }
+  if(is.na(tck)){
+    tck <- -0.05 + 0.004 * min(dev.size("in"))
+    if(tck >=0){
+      stop("Figure too large to approximate tck size. Input value to tck.")
+    }
   }
   axis(side = side, at = at, labels = labels, tick = tick, line = line, pos = pos,
        outer = outer, font = font, lty = lty, lwd = lwd, lwd.ticks = lwd, col = col,
