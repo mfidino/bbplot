@@ -22,7 +22,7 @@ axis_blank(
   padj = NA,
   gap.axis = NA,
   ...,
-  tck = -0.02,
+  tck = NA,
   minor = TRUE
 )
 }
@@ -61,7 +61,7 @@ axis_blank(
 
 \item{...}{Other graphical parameters that may apply to \code{\link[graphics]{axis}}.}
 
-\item{tck}{The length of tick marks as a fraction of the smaller of the width or height of the plotting region. If tck >= 0.5 it is interpreted as a fraction of the relevant side, so if tck = 1 grid lines are drawn. The default setting is (tck = -0.025).}
+\item{tck}{The length of tick marks as a fraction of the smaller of the width or height of the plotting region. If tck >= 0.5 it is interpreted as a fraction of the relevant side, so if tck = 1 grid lines are drawn. The default setting is tck = -0.078 + 0.0088 * min(dev.size("in")), which works well for most standard plot sizes.}
 
 \item{minor}{Whether or not to add smaller tick marks spaced equally between the larger tickmarks specified by the at argument. Tick length is set to \code{tck * 0.5}.}
 }
